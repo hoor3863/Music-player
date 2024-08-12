@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music Player</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+      margin: 0;
+    }
+
+    .player {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .track-info {
+      margin-bottom: 20px;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="player">
+    <div class="track-info">
+      <span id="track-title">Track Title</span><br>
+      <span id="track-artist">Artist</span>
+    </div>
+    <audio id="audio-player" controls>
+      <source src="song1.mp3" type="audio/mp3">
+    </audio>
+    <div class="controls">
+      <button id="prev-btn">Prev</button>
+      <button id="play-btn">Play</button>
+      <button id="next-btn">Next</button>
+    </div>
+  </div>
+  <script>
+    const audioPlayer = document.getElementById('audio-player');
+    const playBtn = document.getElementById('play-btn');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const trackTitle = document.getElementById('track-title');
+    const trackArtist = document.getElementById('track-artist');
+
+    let currentTrackIndex = 0;
+
+    const tracks = [
+      {
+        title: 'Song One',
+        artist: 'Artist One',
+        src: 'song1.mp3'
+      },
+      {
+        title: 'Song Two',
+        artist: 'Artist Two',
+        src: 'song2.mp3'
+      }
+      
+    ];
+
+    function loadTrack(index) {
+      const track = tracks[index];
+      audioPlayer.src = track.src;
+      trackTitle.textContent = track.title;
+      trackArtist.textContent = track.artist;
+    }
+
+    function playTrack() {
+      if (audioPlayer.paused) {
+        audioPlayer.play();
+        playBtn.textContent = 'Pause';
+      } else {
+        audioPlayer.pause();
+        playBtn.textContent = 'Play';
+      }
+    }
+
+    function prevTrack() {
+      currentTrackIndex = (currentTrackIndex > 0) ? currentTrackIndex - 1 : tracks.length - 1;
+      loadTrack(currentTrackIndex);
+      playTrack();
+    }
+
+    function nextTrack() {
+      currentTrackIndex = (currentTrackIndex < tracks.length - 1) ? currentTrackIndex + 1 : 0;
+      loadTrack(currentTrackIndex);
+      playTrack();
+    }
+
+    playBtn.addEventListener('click', playTrack);
+    prevBtn.addEventListener('click', prevTrack);
+    nextBtn.addEventListener('click', nextTrack);
+
+    
+    loadTrack(currentTrackIndex);
+  </script>
+</body>
+</html>
